@@ -12,6 +12,7 @@ function App() {
   const [elapsed, setElapsed] = useState(0);
   const [team1, setTeam1] = useState(0);
   const [team2, setTeam2] = useState(0);
+  const [projected, setProjected] = useState(0);
   const [flag, setFlag] = useState(false);
 
   const quarterChange = (e) => {
@@ -20,7 +21,8 @@ function App() {
 
   const urlChange = (e) => {
     let temp = e.target.value;
-    setUrl(temp.substr(23, temp.length-23));
+    setUrl(temp);
+    // setUrl(temp.substr(23, temp.length-23));
   }
 
   const handleStart = (e) => {
@@ -60,8 +62,10 @@ function App() {
     let currentTime = current.substring(3);
     let currentMin = parseInt(currentTime.substring(0, 2));
     let currentSec = parseInt(currentTime.substring(3));
-    let elapsed1 = quarter * 60 - currentMin * 60 - currentSec;
-    setElapsed(elapsed1);
+    let temp = quarter * 60 - currentMin * 60 - currentSec;
+    setElapsed(temp);
+    temp = currentMin + (currentSec / 60).toFixed(4);
+    setProjected(temp);
   }, [current, quarter, team1, team2]);
 
   return (
@@ -73,7 +77,7 @@ function App() {
         <button className={flag ? "btn btn-warning": "btn btn-primary"} onClick={handleStart}> {flag ? "Stop Scraping" : "Start Scraping"} </button>
         <div className="section mt-4">
           <label htmlFor="url" className="mx-2"> Input the URL: </label>
-          <input type="text" id="url" onChange={urlChange} />
+          <input type="text" id="url" className="w-50" onChange={urlChange} />
         </div>
       <div className="m-auto" style={{width: "500px", textAlign: ""}}>
         <div className="section mt-4">
@@ -90,7 +94,7 @@ function App() {
           <label htmlFor=""> Current Pace per minute : <span> {flag === false ? 0 : ((team1 + team2) / elapsed * 60).toFixed(4)} </span> </label>
         </div>           
         <div className="section mt-2">
-          <label htmlFor=""> Current Projected Total Score : <span> {flag === false ? 0 : ((team1 + team2) / elapsed * 60).toFixed(4)} </span> </label>
+          <label htmlFor=""> Current Projected Total Score : <span> {flag === false ? 0 : projected} </span> </label>
         </div>   
         <div className="section mt-2">
           <label htmlFor=""> Time Elapsed: <span> {flag === false ? "0 min 0 sec" : Math.floor(elapsed / 60) + " min " + elapsed % 60 + " sec"} </span> </label>
