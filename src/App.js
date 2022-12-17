@@ -62,10 +62,10 @@ function App() {
     let currentTime = current.substring(3);
     let currentMin = parseInt(currentTime.substring(0, 2));
     let currentSec = parseInt(currentTime.substring(3));
-    let temp = quarter * 60 - currentMin * 60 - currentSec;
-    setElapsed(temp);
-    temp = currentMin + (currentSec / 60).toFixed(4);
-    setProjected(temp);
+    let elapsed1 = quarter * 60 - currentMin * 60 - currentSec;
+    setElapsed(elapsed1);
+    // let temp = currentMin + (currentSec / 60).toFixed(4);
+    setProjected(((team1 + team2) / elapsed1 * 60 * quarter).toFixed(4));
   }, [current, quarter, team1, team2]);
 
   return (
